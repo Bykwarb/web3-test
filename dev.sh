@@ -1,10 +1,13 @@
+#!/usr/bin/env bash
 set -euo pipefail
  
-IMAGE="${IMAGE:-pq-agility-dev}"
-NAME="${NAME:-pq-agility}"
+export MSYS_NO_PATHCONV=1
+ 
+IMAGE="${IMAGE:-test-web3-dev}"
+NAME="${NAME:-test-web3}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
  
-command -v docker >/dev/null 2>&1 || { echo "docker dont found in PATH" >&2; exit 1; }
+command -v docker >/dev/null 2>&1 || { echo "docker не найден в PATH" >&2; exit 1; }
  
 HOST_UID="$(id -u)"
 HOST_GID="$(id -g)"
@@ -19,9 +22,9 @@ build() {
 run_container() {
   if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then build; fi
   docker run --rm -it --init --name "$NAME" \
-    -v "$PWD":/workspace \
-    -v pq-agility-svm:/home/dev/.svm \
-    -v pq-agility-pnpm:/home/dev/.local/share/pnpm \
+    -v "$SCRIPT_DIR":/workspace \
+    -v test-web3-svm:/home/dev/.svm \
+    -v test-web3-pnpm:/home/dev/.local/share/pnpm \
     -p 8545:8545 -p 4337:4337 \
     "$IMAGE" "$@"
 }

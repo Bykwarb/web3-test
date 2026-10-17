@@ -5,7 +5,7 @@ ARG GID=1000
  
 RUN npm install -g pnpm
  
-\RUN userdel -r node 2>/dev/null || true \
+RUN userdel -r node 2>/dev/null || true \
  && (getent group ${GID} >/dev/null || groupadd -g ${GID} dev) \
  && useradd -m -u ${UID} -g ${GID} -s /bin/bash dev \
  && mkdir -p /workspace && chown ${UID}:${GID} /workspace
