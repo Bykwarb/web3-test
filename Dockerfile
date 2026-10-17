@@ -17,9 +17,10 @@ ENV PATH="/home/dev/.foundry/bin:${PATH}"
 RUN curl -L https://foundry.paradigm.xyz | bash \
  && /home/dev/.foundry/bin/foundryup
  
+RUN git config --global --add safe.directory '*'
+ 
 RUN mkdir -p /home/dev/.svm /home/dev/.local/share/pnpm
  
 WORKDIR /workspace
 EXPOSE 8545 4337
 CMD ["bash"]
- 
